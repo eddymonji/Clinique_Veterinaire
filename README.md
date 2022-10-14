@@ -32,9 +32,12 @@ Besoins :
 
 ## Semaine 1 :
 À réaliser: 
-README.md
-note_de_clarification.md
-modele_uml.plantuml
-uml.png
++ README.md
+
++ NDC.md
+
++ modele_uml.plantuml
+
++ uml.png
 
 
