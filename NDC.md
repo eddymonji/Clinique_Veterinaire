@@ -3,8 +3,8 @@
     + personnel (poste) 
         + specialisé sur une **<ins>catégorie-espèce</ins>** (*-1)
         + suit **<ins>animal</ins>** (1-*)
-        + Vétérinaire <br> 
-        + Assistant
+        + de type **<ins>Vétérinaire</ins>** <br> 
+        + ou de type **<ins>Assistant</ins>**
 <br> 
 
 + ## Animal(nom, dateNaiss, numPuce, numPassport)
@@ -30,8 +30,8 @@
 <br>
 
 + ## Traitement(debut, duree, nom, quantité)
-    + possède medicament (1..* - 1..*)
-    + est prescrit par vétérinaire (1..* - 1..*)
+    + possède **<ins>Medicament</ins>** (1..* - 1..*)
+    + est prescrit par **<ins>Vétérinaire</ins>** (1..* - 1..*)
 <br> 
 
 
