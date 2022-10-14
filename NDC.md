@@ -1,5 +1,5 @@
 + ## Personne(nom, prenom, dateNaiss, adresse, telephone, période)
-    + client -> possède des **<ins>animal</ins>** (* - *)
+    + client -> possède des **<ins>animaux</ins>** (* - *)
     + personnel (poste) 
         + specialisé sur une **<ins>catégorie-espèce</ins>** (*-1)
         + suit **<ins>animal</ins>** (1-*)
@@ -14,12 +14,12 @@
     + est d'une **<ins>catégorie-espèce</ins>** (* -1)
 <br> 
 
-+ ## Catégorie-espèce(nom)
++ ## Catégorie-espèce(nom, autre_espèce)
 <br> 
 
 + ## dossierMedical(taille, poids, resultat, observation, date, heure)
     + comporte **<ins>procedure</ins>** (1-1)
-    + comporte **<ins>traitement</ins>** (1-1)
+    + comporte **<ins>traitement</ins>** (1-1..*)
 <br> 
 
 + ## Procedure(nom, description)
