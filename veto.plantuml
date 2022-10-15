@@ -78,7 +78,7 @@ Dossier_Medical "1..* " -- "1" Procedure : possède >
 
 Véterinaire "1..* " -- "1..*" Traitement : prescrit >
 
-Médicament "1..* " -- "1..*" Traitement : <b possède
+Médicament "1..* " -- "1..*" Traitement : < possède
 Médicament "0..* " -- "0..*" Categorie_Espèce : est autorisé > 
 
 note "le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N1
