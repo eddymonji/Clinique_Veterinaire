@@ -71,7 +71,7 @@ Personnel "1" -- "1..* " Animal : < suivi par
 
 Animal "1..* " -- "1" Categorie_Espèce : est de >
 Animal "1..* " -- "1 ..*" Client : < possède
-Animal -- "1" Dossier_Medical : appartient à >
+Animal o-- "1" Dossier_Medical : < appartient à 
 
 Dossier_Medical "1..* " -- "1..*" Traitement : comporte >
 Dossier_Medical "1..* " -- "1" Procedure : possède >
@@ -84,8 +84,5 @@ Médicament "0..* " -- "0..*" Categorie_Espèce : est autorisé >
 note "le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N1
 Personnel .. N1
 N1 .. Animal
-
-
-
 
 @enduml
