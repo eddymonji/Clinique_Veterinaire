@@ -1,0 +1,91 @@
+@startuml Clinique Véterinaire
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+abstract class Personne <<abstract>> {
+    nom : String 
+    prenom : String
+    date_naissance : Date
+    adresse : String
+    télephone : Integer
+    periode : Date 
+}
+
+class Personnel {
+    poste : Boolean 
+}
+
+class Véterinaire
+
+class Assistant
+
+class Client 
+
+class Animal {
+   
+    nom : String
+    date_naissance : Date 
+    num_puce : Integer
+    num_passeport : Integer
+}
+
+class Categorie_Espèce{
+    list_espèce : List
+    autre_espèce : String
+}
+
+class Médicament {
+    nom : String
+    description : Text
+}
+
+class Traitement {
+    debut : Date
+    durée : Date 
+    nom : String
+    quantité : Integer
+
+}
+
+class Dossier_Medical {
+    taille : Integer
+    poids : Integer
+    resultat : String
+    observation : String
+    date : Date 
+    heure : Time 
+}
+
+class Procedure{
+    nom : String
+    description : Text 
+}
+
+Personne <|-- Personnel
+Personne <|-- Client
+
+Personnel <|-- Assistant
+Personnel <|-- Véterinaire
+Personnel "*" -- "1" Categorie_Espèce : est spécilisé >
+Personnel "1" -- "1..* " Animal : < suivi par
+
+Animal "1..* " -- "1" Categorie_Espèce : est de >
+Animal "1..* " -- "1 ..*" Client : < possède
+Animal -- "1" Dossier_Medical : appartient à >
+
+Dossier_Medical "1..* " -- "1..*" Traitement : comporte >
+Dossier_Medical "1..* " -- "1" Procedure : possède >
+
+Véterinaire "1..* " -- "1..*" Traitement : prescrit >
+
+Médicament "1..* " -- "1..*" Traitement : <b possède
+Médicament "0..* " -- "0..*" Categorie_Espèce : est autorisé > 
+
+note "le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N1
+Personnel .. N1
+N1 .. Animal
+
+
+
+
+@enduml
