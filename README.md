@@ -31,12 +31,12 @@ Besoins :
 
 
 ## Semaine 1 :
-À réaliser: 
+Travaux réalisés: 
 + README.md
 
 + NDC.md
 
-+ modele_uml.plantuml
++ veto.plantuml
 
 + uml.png
 
