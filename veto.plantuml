@@ -30,8 +30,7 @@ class Animal {
 }
 
 class Categorie_Espèce{
-    list_espèce : List
-    autre_espèce : String
+    Categorie : String
 }
 
 class Médicament {
