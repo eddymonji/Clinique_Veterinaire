@@ -1,4 +1,4 @@
-@startuml Clinique Véterinaire
+@startuml Clinique Veterinaire
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
@@ -7,46 +7,53 @@ abstract class Personne <<abstract>> {
     prenom : String
     date_naissance : Date
     adresse : String
-    télephone : Integer
+    telephone : Integer
     periode : Date 
 }
 
 class Personnel {
+    id : Integer
     poste : Boolean 
 }
 
-class Véterinaire
+class Veterinaire
 
 class Assistant
 
-class Client 
+class Client {
+    id : Integer
+}
 
 class Animal {
-   
+    id : Integer
     nom : String
     date_naissance : Date 
     num_puce : Integer
     num_passeport : Integer
+    proprietaires : List
+    date_adoption : Date
 }
 
-class Categorie_Espèce{
-    Categorie : String
+class Categorie_Espece{
+    list_espece : List
+    autre_espece : String
 }
 
-class Médicament {
+class Medicament {
     nom : String
     description : Text
 }
 
 class Traitement {
     debut : Date
-    durée : Date 
+    duree : Date 
     nom : String
-    quantité : Integer
+    quantite : Integer
 
 }
 
 class Dossier_Medical {
+    id : Integer 
     taille : Integer
     poids : Integer
     resultat : String
@@ -60,25 +67,37 @@ class Procedure{
     description : Text 
 }
 
+class dosage {
+    quantite : Integer
+}
+
+class historique_veto {
+    date_debut : Date
+}
+
+
+Medicament "1..*" - "1..*" Traitement
+(Medicament, Traitement) .. dosage
+
 Personne <|-- Personnel
 Personne <|-- Client
 
 Personnel <|-- Assistant
-Personnel <|-- Véterinaire
-Personnel "*" -- "1" Categorie_Espèce : est spécilisé >
+Personnel <|-- Veterinaire
+Personnel "*" -- "1" Categorie_Espece : est specialise >
 Personnel "1" -- "1..* " Animal : < suivi par
+(Animal, Personnel) .. historique_veto
 
-Animal "1..* " -- "1" Categorie_Espèce : est de >
-Animal "1..* " -- "1 ..*" Client : < possède
-Animal o-- "1" Dossier_Medical : < appartient à 
+Animal "1..* " -- "1" Categorie_Espece : est de >
+Animal "1..* " -- "1 ..*" Client : < possede
+Animal o-- "0..1" Dossier_Medical : < appartient a 
 
 Dossier_Medical "1..* " -- "1..*" Traitement : comporte >
-Dossier_Medical "1..* " -- "1" Procedure : possède >
+Dossier_Medical "1..* " -- "1" Procedure : possede >
 
-Véterinaire "1..* " -- "1..*" Traitement : prescrit >
+Veterinaire "1..* " -- "1..*" Traitement : prescrit >
 
-Médicament "1..* " -- "1..*" Traitement : < possède
-Médicament "0..* " -- "0..*" Categorie_Espèce : est autorisé > 
+Medicament "0..* " -- "0..*" Categorie_Espece : est autorise > 
 
 note "le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N1
 Personnel .. N1
