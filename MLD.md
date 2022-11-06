@@ -7,7 +7,7 @@ avec poste=True pour vetérinaire et False pour assistant
 avec categorie_espece NOT NULL
 + Historique_veto(#personnel => Personnel ; #animal =>Animal ; date_debut : Date) 
 avec Personnel.poste=TRUE
-+ Animal_Client(#animal => Animal ; #client =>Client.Personne, date_adoption: Date )
++ Proprietaire(#animal => Animal ; #client =>Client.Personne, date_adoption: Date )
 + Medicament (#nom : string ; description : text)
 + Traitement (#id_traitement ; début : Date ; duree : Date ; nom : String)
 + Dosage (#medicament =>Medicament ; #traitement => Traitement, quantite : Reel)
