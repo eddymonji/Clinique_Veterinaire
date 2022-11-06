@@ -12,7 +12,6 @@ abstract class Personne <<abstract>> {
 }
 
 class Personnel {
-    id : Integer
     poste : Boolean 
 }
 
@@ -21,22 +20,17 @@ class Veterinaire
 class Assistant
 
 class Client {
-    id : Integer
 }
 
 class Animal {
-    id : Integer
     nom : String
     date_naissance : Date 
     num_puce : Integer
     num_passeport : Integer
-    proprietaires : List
-    date_adoption : Date
 }
 
 class Categorie_Espece{
-    list_espece : List
-    autre_espece : String
+    nom_categorie : String
 }
 
 class Medicament {
@@ -48,12 +42,10 @@ class Traitement {
     debut : Date
     duree : Date 
     nom : String
-    quantite : Integer
 
 }
 
 class Dossier_Medical {
-    id : Integer 
     taille : Integer
     poids : Integer
     resultat : String
@@ -68,11 +60,15 @@ class Procedure{
 }
 
 class dosage {
-    quantite : Integer
+    quantite : Reel
 }
 
 class historique_veto {
     date_debut : Date
+}
+
+class Proprietaire{
+    date_adoption : Date
 }
 
 
@@ -87,6 +83,7 @@ Personnel <|-- Veterinaire
 Personnel "*" -- "1" Categorie_Espece : est specialise >
 Personnel "1" -- "1..* " Animal : < suivi par
 (Animal, Personnel) .. historique_veto
+(Animal, Client) .. Proprietaire
 
 Animal "1..* " -- "1" Categorie_Espece : est de >
 Animal "1..* " -- "1 ..*" Client : < possede
@@ -99,8 +96,13 @@ Veterinaire "1..* " -- "1..*" Traitement : prescrit >
 
 Medicament "0..* " -- "0..*" Categorie_Espece : est autorise > 
 
-note "le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N1
-Personnel .. N1
-N1 .. Animal
+
+note "l'heritage est exclusif car le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N2
+Personnel .. N2
+N2 .. Client
+
+note "l'heritage est exclusif" as N3
+Assistant .. N3
+N3 .. Veterinaire
 
 @enduml
