@@ -11,6 +11,7 @@ avec Personnel.poste=TRUE
 + Medicament (#nom : string ; description : text)
 + Traitement (#id_traitement ; début : Date ; duree : Date ; nom : String)
 + Dosage (#medicament =>Medicament ; #traitement => Traitement, quantite : Reel)
+Avec(quantite > 0)
 
 + Categorie_Espece (#id_categorie : int ; nom_categorie: string)
 + Medicament_Categorie_espece (#medicament=>Medicament ; #categorie => Categorie_Espece) 
