@@ -39,7 +39,7 @@ class Medicament {
 
 class Traitement {
     debut : Date
-    duree : Date 
+    fin : Date 
     nom : String
 
 }
@@ -81,11 +81,13 @@ Personnel <|-- Assistant
 Personnel <|-- Veterinaire
 Personnel "*" -- "1" Categorie_Espece : est specialise >
 Personnel "1" -- "1..* " Animal : < suivi par
+Animal "* " -- "*" Veterinaire 
 (Animal, Veterinaire) .. historique_veto
-(Animal, Client) .. Proprietaire
+
 
 Animal "1..* " -- "1" Categorie_Espece : est de >
-Animal "1..* " -- "1 ..*" Client : < possede
+Animal "1..* " -- "1 ..*" Client 
+(Animal, Client) .. Proprietaire
 Animal o-- "0..*" Dossier_Medical : < appartient a 
 
 Dossier_Medical "1..* " -- "1..*" Traitement : comporte >
