@@ -26,7 +26,7 @@ avec (procedure NOT NULL)
 
 + Notes: 
     - Passage par classes filles pour l'héritage entre Personne et Personnel/Client. Cela permet de respecter d'office l'héritage exclusif et comme Client et Personnel n'ont pas d'interactions commune, cela est d'autant plus pertinent
-    -Passage par classes mère entre Personnel et Assistant/Veterinaires par l'ajout d'un attribut booléen. Comme un seul paramètre change (le poste), cela facilite l'implémentation en SQL même si des projections seront nécessaires pour certaines tâches uniquement exécutables par des vétérinaires.
+    - Passage par classes mère entre Personnel et Assistant/Veterinaires par l'ajout d'un attribut booléen. Comme un seul paramètre change (le poste), cela facilite l'implémentation en SQL même si des projections seront nécessaires pour certaines tâches uniquement exécutables par des vétérinaires.
  
  
 
