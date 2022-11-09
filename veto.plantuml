@@ -8,7 +8,6 @@ abstract class Personne <<abstract>> {
     date_naissance : Date
     adresse : String
     telephone : Integer
-    periode : Date 
 }
 
 class Personnel {
@@ -82,12 +81,12 @@ Personnel <|-- Assistant
 Personnel <|-- Veterinaire
 Personnel "*" -- "1" Categorie_Espece : est specialise >
 Personnel "1" -- "1..* " Animal : < suivi par
-(Animal, Personnel) .. historique_veto
+(Animal, Veterinaire) .. historique_veto
 (Animal, Client) .. Proprietaire
 
 Animal "1..* " -- "1" Categorie_Espece : est de >
 Animal "1..* " -- "1 ..*" Client : < possede
-Animal o-- "0..1" Dossier_Medical : < appartient a 
+Animal o-- "0..*" Dossier_Medical : < appartient a 
 
 Dossier_Medical "1..* " -- "1..*" Traitement : comporte >
 Dossier_Medical "1..* " -- "1" Procedure : possede >
@@ -97,7 +96,7 @@ Veterinaire "1..* " -- "1..*" Traitement : prescrit >
 Medicament "0..* " -- "0..*" Categorie_Espece : est autorise > 
 
 
-note "l'heritage est exclusif car le <b>personnel</b> de la clinique ne doit pas avoir d'<b>animaux</b> de compagnie traités dans la clinique" as N2
+note "l'heritage est exclusif" as N2
 Personnel .. N2
 N2 .. Client
 
