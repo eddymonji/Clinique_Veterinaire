@@ -10,8 +10,9 @@ avec Personnel.poste=TRUE
 + Proprietaire(#animal => Animal ; #client =>Client.Personne, date_adoption: Date )
 + Medicament (#nom : string ; description : text)
 + Traitement (#id_traitement ; début : Date ; fin : Date ; nom : String)
+avec fin >= debut
 + Dosage (#medicament =>Medicament ; #traitement => Traitement, quantite : Reel)
-avec quantite > 0 et fin >= debut
+avec quantite > 0
 
 + Categorie_Espece (#id_categorie : int ; nom_categorie: string)
 + Medicament_Categorie_espece (#medicament=>Medicament ; #categorie => Categorie_Espece) 
