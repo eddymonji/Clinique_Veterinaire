@@ -67,7 +67,8 @@ class historique_veto {
 }
 
 class Proprietaire{
-    date_adoption : Date
+    debut : Date
+    fin : Date
 }
 
 
