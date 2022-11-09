@@ -9,9 +9,9 @@ avec categorie_espece NOT NULL num_puce UNIQUE,num_passeport UNIQUE
 avec Personnel.poste=TRUE
 + Proprietaire(#animal => Animal ; #client =>Client.Personne, date_adoption: Date )
 + Medicament (#nom : string ; description : text)
-+ Traitement (#id_traitement ; début : Date ; duree : Date ; nom : String)
++ Traitement (#id_traitement ; début : Date ; fin : Date ; nom : String)
 + Dosage (#medicament =>Medicament ; #traitement => Traitement, quantite : Reel)
-avec quantite > 0
+avec quantite > 0 et fin >= debut
 
 + Categorie_Espece (#id_categorie : int ; nom_categorie: string)
 + Medicament_Categorie_espece (#medicament=>Medicament ; #categorie => Categorie_Espece) 
