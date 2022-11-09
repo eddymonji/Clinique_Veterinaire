@@ -17,7 +17,7 @@ Avec(medicament NOT NULL, Traitement NOT NULL)
 + Dossier_Medical ( #animal => Animal ; taille : int ; poids : int ; resultat : string ; observation : string ; date : Date ; heure : Time ; procédure => Procédure) 
 avec (procedure NOT NULL)
 + Procedure (#id_procedure : int ; nom : string ; description : Text) 
-+ Dossier_Traitement(#dossier=>Dossier_Medical ; #traitement => Traitement) Veterinaire_Traitement(#traitement =>Traitement ; #veterinaire => Veterinaire.Personnel)
++ Dossier_Traitement(#dossier=>Dossier_Medical ; #traitement => Traitement) Veterinaire_Traitement(#traitement =>Traitement ; #veterinaire =>Personnel)avec Personnel.poste=TRUE
  
  
 
