@@ -71,15 +71,15 @@ PRIMARY KEY (medicament, categorie)
 );
 
 CREATE TABLE Procedure (
-	id_procedure	SERIAL PRIMARY KEY,
-	nom	varchar(30),
+	id_procedure SERIAL PRIMARY KEY,
+	nom	VARCHAR(30),
 	description	TEXT
 );
 
 CREATE TABLE Dossier_medical (
-	animal	PRIMARY KEY,
-	taille	INTEGER,
-	poids	INTEGER,
+	animal	INTEGER PRIMARY KEY,
+	taille	FLOAT,
+	poids	FLOAT,
 	resultat	TEXT,
 	observation	TEXT, 
 	procedure	INTEGER NOT NULL,
@@ -87,6 +87,9 @@ CREATE TABLE Dossier_medical (
 	heure TIME,
 	FOREIGN KEY(animal) REFERENCES Animal(id_animal),
 	FOREIGN KEY(procedure) REFERENCES Procedure(id_procedure)
+	CONSTRAINT taille CHECK (taille > 0)
+	CONSTRAINT poids CHECK (poids > 0)
+
 );
 
 
