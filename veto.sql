@@ -77,7 +77,7 @@ CREATE TABLE Procedure (
 );
 
 CREATE TABLE Dossier_medical (
-	animal	SERIAL PRIMARY KEY,
+	animal	PRIMARY KEY,
 	taille	INTEGER,
 	poids	INTEGER,
 	resultat	TEXT,
