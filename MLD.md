@@ -17,7 +17,7 @@ avec quantite > 0
 
 + Categorie_Espece (#id_categorie : int ; nom_categorie: string)
 + Medicament_Categorie_espece (#medicament=>Medicament ; #categorie => Categorie_Espece) 
-+ Dossier_Medical ( #animal => Animal ; taille : int ; poids : int ; resultat : string ; observation : string ; date : Date ; heure : Time ; procédure => Procédure) 
++ Dossier_Medical ( #animal => Animal ;  procédure => Procédure ; taille : int ; poids : int ; resultat : string ; observation : string ; date : Date ; heure : Time ) 
 avec (procedure NOT NULL)
 + Procedure (#id_procedure : int ; nom : string ; description : Text) 
 + Dossier_Traitement(#dossier_medical => Dossier_Medical ; #traitement => Traitement) 
