@@ -248,32 +248,54 @@ def s7():
     affichesql(result)
 
 def s8():
+    print("\nVoici le tableau de l'animal existant: ")
+    cur.execute("SELECT * FROM Animal")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomAni = input("Entrez le nom de l'animal ciblé: ")
+
+    print("Membre du personnel inséré avec succès")
     sql = "SELECT taille, poids, date, heure FROM Dossier_Medical d\
         INNER JOIN Animal a ON a.id_animal = d.animal\
-        WHERE a.nom = 'Rex'\
-        ORDER BY date, heure ASC ;"
+        WHERE a.nom = '%s'\
+        ORDER BY date, heure ASC ;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s9():
+    print("\nVoici le tableau de l'animal existant: ")
+    cur.execute("SELECT * FROM Animal")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomAni = input("Entrez le nom de l'animal ciblé: ")
+
     sql = "SELECT t.nom, debut, fin FROM Traitement t\
         INNER JOIN Dossier_Traitement d ON t.id_traitement = d.traitement\
         INNER JOIN Animal a ON a.id_animal = d.dossier_medical\
-        WHERE a.nom = 'Rex'\
+        WHERE a.nom = '%s'\
         GROUP BY t.nom, debut, fin\
-        ORDER BY debut ASC, fin ASC ;"
+        ORDER BY debut ASC, fin ASC ;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s10():
+    print("\nVoici le tableau de l'animal existant: ")
+    cur.execute("SELECT * FROM Animal")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomAni = input("Entrez le nom de l'animal ciblé: ")
+
     sql = "SELECT t.nom, debut, fin FROM Traitement t\
         INNER JOIN Dossier_Traitement d ON t.id_traitement = d.traitement\
         INNER JOIN Animal a ON a.id_animal = d.dossier_medical\
-        WHERE a.nom = 'Rex' AND fin > CURRENT_TIMESTAMP\
+        WHERE a.nom = '%s' AND fin > CURRENT_TIMESTAMP\
         GROUP BY t.nom, debut, fin\
-        ORDER BY debut ASC, fin ASC;"
+        ORDER BY debut ASC, fin ASC;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
@@ -287,29 +309,45 @@ def s11():
         END as poste\
         FROM Personnel p\
         INNER JOIN Categorie_Espece c ON p.categorie_espece = c.id_categorie\
-        WHERE c.nom_categorie =  'Reptiles';"
+        WHERE c.nom_categorie = 'Reptiles';"
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s12():
+
+    print("\nVoici le tableau de vétérinaire existant: ")
+    cur.execute("SELECT * FROM Personnel WHERE poste = 'True' ")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomVet = input("Entrez le nom de vétérinaire ciblé: ")
+    prenomVet = input("Entrez le prenom de vétérinaire ciblé: ")
+
     sql = "SELECT a.nom, a.date_naissance, num_puce, num_passeport, nom_categorie\
         FROM Animal a\
         INNER JOIN historique_veto h ON a.id_animal = h.animal\
         INNER JOIN Personnel p ON h.personnel = p.id_personnel\
         INNER JOIN Categorie_Espece c ON a.categorie_espece = c.id_categorie\
-        WHERE p.nom = 'Alexandre' AND p.prenom = 'Dico';"
+        WHERE p.nom = '%s' AND p.prenom = '%s';" %(nomVet,prenomVet)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s13():
+    print("\nVoici le tableau de l'animal existant: ")
+    cur.execute("SELECT * FROM Animal")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomAni = input("Entrez le nom de l'animal ciblé: ")
+
     sql = "SELECT p.nom, prenom, p.date_naissance, adresse, telephone, poste, nom_categorie, date_debut FROM Personnel p\
         INNER JOIN historique_veto h ON p.id_personnel = h.personnel\
         INNER JOIN Animal a ON h.animal =  a.id_animal\
         INNER JOIN Categorie_Espece c ON p.categorie_espece = c.id_categorie\
-        WHERE a.nom =  'Rex' AND p.poste =  'True'\
-        ORDER BY date_debut ASC;"
+        WHERE a.nom =  '%s' AND p.poste =  'True'\
+        ORDER BY date_debut ASC;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
