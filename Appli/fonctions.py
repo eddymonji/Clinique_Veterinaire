@@ -225,13 +225,15 @@ def s5():
     result = cur.fetchall()
     affichesql(result)
     nomCli = input("Entrez le nom du client ciblé: ")
+    prenomCli = input("Entrez le prénom du client ciblé: ")
     sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, \
         categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport \
         FROM animal a \
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie\
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
-        WHERE client.nom = '%s';"%(nomCli)
+        WHERE client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
@@ -243,13 +245,15 @@ def s6():
     result = cur.fetchall()
     affichesql(result)
     nomCli = input("Entrez le nom du client ciblé: ")
+    prenomCli = input("Entrez le prénom du client ciblé: ")
     sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport \
         FROM animal a \
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie \
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
         WHERE proprietaire.fin ISNULL\
-        AND client.nom = '%s';"%(nomCli)
+        AND client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
@@ -262,13 +266,15 @@ def s7():
     result = cur.fetchall()
     affichesql(result)
     nomCli = input("Entrez le nom du client ciblé: ")
+    prenomCli = input("Entrez le prénom du client ciblé: ")
     sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport\
         FROM animal a\
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie\
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
         WHERE proprietaire.fin < CURRENT_TIMESTAMP\
-        AND client.nom = '%s';"%(nomCli)
+        AND client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
