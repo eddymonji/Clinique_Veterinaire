@@ -82,9 +82,6 @@ WHERE a.nom = 'Rex'
 ORDER BY date, heure ASC ;
 
 --Requête 9:
---Données pour tester:
-INSERT INTO Dossier_Traitement (dossier_medical, traitement) VALUES (1, 1);
-INSERT INTO Dossier_Traitement (dossier_medical, traitement) VALUES (1, 3);
 
 --Par exemple si l’animal demandé est « Rex »
 SELECT t.nom, debut, fin FROM Traitement t
@@ -98,13 +95,6 @@ ORDER BY debut ASC, fin ASC ;
 --Requête 10:
 --Par exemple si l’animal est “Rex”
  
---Données pour tester:
-INSERT INTO Traitement (nom, debut, fin)
-VALUES ('Antivirus', '2022-08-12', '2022-12-30');
-INSERT INTO Dossier_Traitement (dossier_medical, traitement)
-VALUES (1, 4);
- 
- 
 SELECT t.nom, debut, fin FROM Traitement t
 INNER JOIN Dossier_Traitement d ON t.id_traitement = d.traitement
 INNER JOIN Animal a ON a.id_animal = d.dossier_medical
@@ -114,9 +104,6 @@ ORDER BY debut ASC, fin ASC;
  
  
 --Requête 11: 
---Données pour tester:
-INSERT INTO Personnel(nom, prenom, date_naissance, adresse, telephone , poste, categorie_espece)
-VALUES ( 'John', 'Appleseed', '1997-01-02', ' Californie', 0758395738,'True',3) ;
  
 SELECT nom, prenom, date_naissance, adresse, telephone,
 CASE
