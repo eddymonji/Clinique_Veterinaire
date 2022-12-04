@@ -165,33 +165,44 @@ def i6():
     print("Dossier médical inséré avec succès")
 
 def s1():
+    dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
+    dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
     sql = "SELECT d.medicament , d.quantite , t.debut , t.fin\
         FROM  Dosage d\
         INNER JOIN Traitement t ON d.traitement = t.id_traitement\
-        WHERE t.debut >= 'debut'  AND t.fin <= 'fin'\
-        ORDER BY d.quantite DESC , t.debut DESC , t.fin DESC"
+        WHERE t.debut >= '%s'  AND t.fin <= '%s'\
+        ORDER BY d.quantite DESC , t.debut DESC , t.fin DESC"%(dateDebut,dateFin)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s2():
-    sql = "SELECT t.nom, COUNT(traitement) AS nombre_traitement, t.debut, t.fin\
+    dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
+    dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
+    sql = "SELECT t.nom, COUNT(traitement) AS nombre_traitement\
         FROM traitement t\
         INNER JOIN dossier_traitement d  ON t.id_traitement = d.traitement\
-        WHERE t.debut >= '2016-10-10' AND t.fin <= '2022-05-05'\
-        GROUP BY t.nom, t.debut, t.fin\
-        ORDER BY  nombre_traitement"
+        WHERE t.debut >= '%s' AND t.fin <= '%s'\
+        GROUP BY t.nom\
+        ORDER BY  nombre_traitement"%(dateDebut,dateFin)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
 
 def s3():
+    print("\nVoici le tableau de l'animal existant: ")
+    cur.execute("SELECT * FROM Animal")
+    result = cur.fetchall()
+    affichesql(result)
+
+    nomAni = input("Entrez le nom de l'animal ciblé: ")
+
     sql = "SELECT a.nom AS Animal,p.nom AS procedure, d.date\
         FROM Procedure p\
         INNER JOIN Dossier_Medical d ON p.id_procedure = d.procedure\
         INNER JOIN Animal a ON d.animal = a.id_animal\
-        WHERE a.nom = 'nom'\
-        ORDER BY p.nom , d.date DESC"
+        WHERE a.nom = '%s'\
+        ORDER BY p.nom , d.date DESC"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
