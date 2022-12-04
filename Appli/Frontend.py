@@ -84,8 +84,7 @@ while choixaction!='q':
                 s12()
             elif choix=='13':
                 s13()
-            print("\nNow sleeping for 3s (pour lire les infos)\n")
-            time.sleep(3)
+            a=input("Appuyez sur n'importe quelle touche pour continuer")
     elif choixaction=='q' :
          print("Fermeture de l'application")
     else :
