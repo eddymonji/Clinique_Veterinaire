@@ -131,7 +131,7 @@ CREATE TABLE Dosage (
 );
 
 
--- INSERTIONS
+-- LES INSERTIONS:
 
 -- INSERTION TABLE CLIENT
 INSERT INTO Client(nom, prenom, date_naissance, adresse, telephone ) VALUES ( 'Robbin', 'Dabank', '2002-12-02', ' Compiegne ', 0639820427) ;
@@ -156,6 +156,9 @@ INSERT INTO Personnel (nom, prenom, date_naissance, adresse, telephone, poste, c
 VALUES (' Tom Alan ', 'Julien', '1999-02-03', 'Tokyo', 060649217, 'False', 1);
 INSERT INTO Personnel (nom, prenom, date_naissance, adresse, telephone, poste, categorie_espece)
 VALUES (' Cruse', 'Sam', '1997-02-07', 'Compiegne', 060734517, 'False', 2 );
+INSERT INTO Personnel(nom, prenom, date_naissance, adresse, telephone , poste, categorie_espece)
+VALUES ( 'John', 'Appleseed', '1997-01-02', ' Californie', 0758395738,'True',3) ;
+
 
 
 -- INSERTION TABLE ANIMAL
@@ -209,6 +212,9 @@ INSERT INTO Traitement (nom, debut, fin)
 VALUES ('Anti-inflammatoire', '2021-02-11', '2021-06-12');
 INSERT INTO Traitement (nom, debut, fin)
 VALUES ('Anti-douleur', '2019-03-21', '2019-07-12');
+INSERT INTO Traitement (nom, debut, fin)
+VALUES ('Antivirus', '2022-08-12', '2022-12-30');
+
 
 
 -- INSERTION TABLE DOSAGE
@@ -241,10 +247,20 @@ INSERT INTO Dossier_Medical (animal, taille, poids, resultat, observation, date,
 VALUES (1, 30, 5, 'succes', 'normale', '2022-05-12', '13:30', 2);
 INSERT INTO Dossier_Medical (animal, taille, poids, resultat, observation, date, heure, procedure)
 VALUES (2, 50, 8, 'succes', 'normale', '2022-06-09', '11:30', 1);
+
+-- INSERTION TABLE DOSSIER_TRAITEMENT
 INSERT INTO Dossier_Traitement (dossier_medical, traitement)
 VALUES (1, 2);
 INSERT INTO Dossier_Traitement (dossier_medical, traitement)
 VALUES (2, 1);
+INSERT INTO Dossier_Traitement (dossier_medical, traitement) 
+VALUES (1, 1);
+INSERT INTO Dossier_Traitement (dossier_medical, traitement) 
+VALUES (1, 3);
+INSERT INTO Dossier_Traitement (dossier_medical, traitement)
+VALUES (1, 4);
+
+
 
 
 -- INSERTION TABLE VETERINAIRE_TRAITEMENT
