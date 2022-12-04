@@ -266,7 +266,6 @@ def s8():
 
     nomAni = input("Entrez le nom de l'animal ciblé: ")
 
-    print("Membre du personnel inséré avec succès")
     sql = "SELECT taille, poids, date, heure FROM Dossier_Medical d\
         INNER JOIN Animal a ON a.id_animal = d.animal\
         WHERE a.nom = '%s'\
