@@ -4,7 +4,7 @@ nom VARCHAR(25),
 prenom VARCHAR(25),
 date_naissance DATE NOT NULL,
 adresse VARCHAR(30),
-telephone INTEGER
+telephone VARCHAR(9)
 );
 
 CREATE TABLE Medicament (
@@ -35,7 +35,7 @@ nom VARCHAR(30),
 prenom VARCHAR(30),
 date_naissance DATE NOT NULL,
 adresse VARCHAR(30),
-telephone INTEGER,
+telephone VARCHAR(9),
 poste BOOLEAN NOT NULL,
 categorie_espece INTEGER NOT NULL,
 FOREIGN KEY (categorie_espece) REFERENCES Categorie_Espece(id_categorie)
