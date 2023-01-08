@@ -89,5 +89,3 @@ while choixaction!='q':
          print("Fermeture de l'application")
     else :
         print("Choix invalide, veuillez réessayer\n")
-
-    
