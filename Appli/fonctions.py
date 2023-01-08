@@ -1,15 +1,12 @@
-import psycopg2
-#i1 -----------
+import psycopg2, string, re
 #connexion sur la BD
-conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
-#ouvir un curseur
-cur = conn.cursor()
+from datetime import datetime
 
-def affichesql(result):
+def affichesql(result, cur):
     largeur = []
     colonnes = []
     tavnit = '|'
-    separateur = '+' 
+    separateur = '+'
     i = 0
     for cd in cur.description:
         espace = list(map(lambda x: len(str(x[i])), result))
@@ -33,20 +30,84 @@ def affichesql(result):
         print(tavnit % row)
     print(separateur)
 
+def inputTele(message):
+    sortie = input(message)
+    pattern = r"^0[0-9]{9}$"
+    while not (sortie.strip().isdigit() and re.match(pattern, sortie)):
+        print("Erreur: L'entrée n'est pas de type numéro de téléphone de 10 chiffres, qui commence par 0")
+        sortie = input("Veuillez retaper: ")
+    return sortie
+
+
+
+    
+def inputInt(message):
+    sortie = input(message)
+    while not sortie.strip().isdigit():
+        print("Erreur: L'entrée n'est pas de type nombre")
+        sortie = input("Veuillez retaper: ")
+    return sortie
+
+def inputAlpha(message):
+    sortie = input(message)
+    while not all(x.isalpha() or x.isspace() for x in sortie):
+        print("Erreur: L'entrée n'est pas de type Alphabets ou espace.")
+        sortie = input("Veuillez retaper: ")
+    return sortie
+
+
+def inputDate(message):
+    sortie = input(message)
+    format = '%Y-%m-%d'
+    res = True
+    try:
+        res = bool(datetime.strptime(sortie, format))
+    except ValueError:
+        res = False
+    while not res:
+        print("Erreur: Format Date incorrect. Entrez la date format YYYY-MM-DD")
+        sortie = input("Veuillez retaper: ")
+        try:
+            res = bool(datetime.strptime(sortie, format))
+        except ValueError:
+            res = False
+    return sortie
+
+def inputHeure(message):
+    sortie = input(message)
+    pattern = r'^(([01]\d|2[0-3]):([0-5]\d)|24:00):([0-5]\d)$'
+    while not (re.match(pattern, sortie)):
+        print("Erreur: L'entrée n'est pas de type heure, qui est HH:MM:SS")
+        sortie = input("Veuillez retaper: ")
+    return sortie
+
+def inputBool(message):
+    sortie = input(message)
+    while not (sortie.strip() == "True" or sortie.strip() == "False"):
+        print("Erreur: L'entrée n'est pas de type 'True' or 'False'.")
+        sortie = input("Veuillez retaper: ")   
+    return sortie
+
+
+
 def i1():
-    nom = input("Entrez le nom du personnel: ")
-    prenom = input("Entrez le prenom du personnel: ")
-    date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
+    nom = inputAlpha("Entrez le nom du personnel: ")
+    prenom = inputAlpha("Entrez le prenom du personnel: ")
+    date_naissance = inputDate("Entrez la date naissance format YYYY-MM-DD : ")
     adresse = input("Entrez l'adresse : ")
-    telephone = input("Entrez le numéro de téléphone : ")
-    poste = input("Entrez 'True' pour vétérinaire, 'False' pour assitant : ")
+    telephone = inputTele("Entrez le numéro de téléphone : ")
+    poste = inputBool("Entrez 'True' pour vétérinaire, 'False' pour assitant : ")
 
     print("\nVoici le tableau de categorie d'espece existant: ")
     cur.execute("SELECT * FROM categorie_espece")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    categorie_espece = input("Ce personnel est spécialisé dans quelle catégorie? Entrez l'id de catégorie : ")
+    categorie_espece = inputInt("Ce personnel est spécialisé dans quelle catégorie? Entrez l'id de catégorie : ")
     #ecrire le code sql
     sql = "INSERT INTO Personnel(nom, prenom, date_naissance, adresse, telephone , poste, categorie_espece)\
         VALUES ('%s', '%s', '%s', '%s', %s,'%s',%s) ;\
@@ -58,11 +119,15 @@ def i1():
 
 #i2-----------------
 def i2():
-    nom = input("Entrez le nom du client: ")
-    prenom = input("Entrez le prenom du personnel: ")
-    date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
+    nom = inputAlpha("Entrez le nom du client: ")
+    prenom = inputAlpha("Entrez le prenom du personnel: ")
+    date_naissance = inputDate("Entrez la date naissance format YYYY-MM-DD : ")
     adresse = input("Entrez l'adresse : ")
-    telephone = input("Entrez le numéro de téléphone : ")
+    telephone = inputTele("Entrez le numéro de téléphone : ")
     #ecrire le code sql
     sql = "INSERT INTO Client(nom, prenom, date_naissance, adresse, telephone ) \
         VALUES ( '%s', '%s', '%s', '%s', %s) ;\
@@ -75,25 +140,29 @@ def i2():
 #i3-----------------
 
 def i3():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     print("Bonjour. Bienvenue à l'insertion de l'information de propriétaire pour un animal")
 
     print("Voici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
 
-    affichesql(result)
-    animal = input("Entrez l'id de l'animal ciblé: ")
+    affichesql(result, cur)
+    animal = inputInt("Entrez l'id de l'animal ciblé: ")
 
     print("\nVoici le tableau de client existant: ")
     cur.execute("SELECT * FROM Client")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    client = input("Entrez l'id du personnel ciblé: ")
+    client = inputInt("Entrez l'id du propriétaire ciblé: ")
 
-    debut = input("Entrez la date de debut format YYYY-MM-DD : ")
-    fin = input("Entrez la date de fin format YYYY-MM-DD : ")
-
+    debut = inputDate("Entrez la date de debut format YYYY-MM-DD : ")
+    fin = inputDate("Entrez la date de fin format YYYY-MM-DD (rien si c'est le propriétaire actuel : ")
+    #rajouter if pour null
     #ecrire le code sql
     sql = "INSERT INTO Proprietaire (animal, client, debut, fin)\
         VALUES ( %s, %s, '%s', '%s') ;\
@@ -105,29 +174,37 @@ def i3():
 
 #i4----------------------
 def i4():
-    nom = input("Entrez le nom de l'animal: ")
-    date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
-    num_puce = input("Entrez le num puce : ")
-    num_passeport = input("Entrez le numéro de passeport : ")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
+    nom = inputAlpha("Entrez le nom de l'animal: ")
+    date_naissance = inputDate("Entrez la date naissance format YYYY-MM-DD : ")
+    num_puce = inputInt("Entrez le num puce : ")
+    num_passeport = inputInt("Entrez le numéro de passeport : ")
 
     print("\nVoici le tableau de categorie d'espece existant: ")
     cur.execute("SELECT * FROM categorie_espece")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    categorie_espece = input("Entrez la catégorie d'espèce : ")
+    categorie_espece = inputInt("Entrez id de catégorie d'espèce : ")
 
     #ecrire le code sql
     sql = "INSERT INTO Animal (nom, date_naissance, num_puce, num_passeport, categorie_espece)\
-        VALUES ( '%s', '%s', %d, %d, %d) ;\
+        VALUES ( '%s', '%s', %s, %s, %s) ;\
         "%(nom, date_naissance, num_puce, num_passeport, categorie_espece)
     cur.execute(sql)
     conn.commit()
     conn.close()
-    print("Médicament inséré avec succès")
+    print("Animal inséré avec succès")
 
 #i5 ----------------
 def i5():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     nom = input("Entrez le nom du medicament: ")
     description = input("Entrez la description: ")
     #ecrire le code sql
@@ -137,36 +214,45 @@ def i5():
     cur.execute(sql)
     conn.commit()
     conn.close()
-    print("Membre du personnel inséré avec succès")
+    print("Médicament inséré avec succès")
 
 #i6 -------------------
 def i6():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    animal = input("Entrez l'id de l'animal ciblé: ")
+    animal = inputInt("Entrez l'id de l'animal ciblé: ")
 
-    taille = input("\nEntrez la taille: ")
-    poids = input("Entrez le poids : ")
+    taille = inputInt("\nEntrez la taille: ")
+    poids = inputInt("Entrez le poids : ")
     resultat = input("Entrez le resultat : ")
     observation = input("Entrez l'observation: ")
-    date = input("Entrez la date format YYYY-MM-DD : ")
-    heure = input("Entrez l'heure: ")
-    procedure = input("Entrez l'id du procedure: ")
+    date = inputDate("Entrez la date format YYYY-MM-DD : ")
+    heure = inputHeure("Entrez l'heure: ")
+    procedure = inputInt("Entrez l'id du procedure: ")
     #ecrire le code sql
     sql = "INSERT INTO Dossier_Medical (animal, taille, poids, resultat, observation, date, heure, procedure)\
-        VALUES ( %d, %d, %d, '%s', '%s', '%s', '%s', %d) ;\
+        VALUES ( %s, %s, %s, '%s', '%s', '%s', '%s', %s) ;\
         "%(animal, taille, poids, resultat, observation, date, heure, procedure)
     cur.execute(sql)
     conn.commit()
-    conn.close()
+
     print("Dossier médical inséré avec succès")
+    conn.close()
 
 def s1():
-    dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
-    dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
+    dateDebut = inputDate("Entrez la date de debut format YYYY-MM-DD: ")
+    dateFin = inputDate("Entrez la date de fin format YYYY-MM-DD: ")
     sql = "SELECT d.medicament , d.quantite , t.debut , t.fin\
         FROM  Dosage d\
         INNER JOIN Traitement t ON d.traitement = t.id_traitement\
@@ -174,11 +260,15 @@ def s1():
         ORDER BY d.quantite DESC , t.debut DESC , t.fin DESC"%(dateDebut,dateFin)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s2():
-    dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
-    dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+    dateDebut = inputDate("Entrez la date de debut format YYYY-MM-DD: ")
+    dateFin = inputDate("Entrez la date de fin format YYYY-MM-DD: ")
     sql = "SELECT t.nom, COUNT(traitement) AS nombre_traitement\
         FROM traitement t\
         INNER JOIN dossier_traitement d  ON t.id_traitement = d.traitement\
@@ -187,15 +277,19 @@ def s2():
         ORDER BY  nombre_traitement"%(dateDebut,dateFin)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s3():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomAni = input("Entrez le nom de l'animal ciblé: ")
+    nomAni = inputAlpha("Entrez le nom de l'animal ciblé: ")
 
     sql = "SELECT a.nom AS Animal,p.nom AS procedure, d.date\
         FROM Procedure p\
@@ -205,9 +299,13 @@ def s3():
         ORDER BY p.nom , d.date DESC"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s4():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     sql = "SELECT COUNT(Animal) AS Nombre_Traite , c.nom_categorie\
         FROM categorie_espece c\
         INNER JOIN Animal a ON c.id_categorie = a.categorie_espece\
@@ -215,82 +313,93 @@ def s4():
         GROUP BY c.nom_categorie"
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 
 
 def s5():
-    print("\nVoici le tableau de client existant: ")
-    cur.execute("SELECT * FROM Client")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+    print("\nVoici le tableau des clients existants: ")
+    cur.execute("SELECT * FROM client")
     result = cur.fetchall()
-    affichesql(result)
-
-    nomClient = input("Entrez le nom de Client ciblé: ")
-    prenomClient = input("Entrez le prenom de Client ciblé: ")
+    affichesql(result, cur)
+    nomCli = inputAlpha("Entrez le nom du client ciblé: ")
+    prenomCli = inputAlpha("Entrez le prénom du client ciblé: ")
     sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, \
-        categorie_espece.nom_categorie AS espece_animal, proprietaire.debut AS date_adoption, a.date_naissance, num_puce, num_passeport \
+        categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport \
         FROM animal a \
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie\
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
-        WHERE client.nom = '%s' AND client.prenom = '%s'\
-        ORDER BY proprietaire.debut DESC;"%(nomClient, prenomClient)
+        WHERE client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 
 def s6():
-    print("\nVoici le tableau de client existant: ")
-    cur.execute("SELECT * FROM Client")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+    print("\nVoici le tableau des clients existants: ")
+    cur.execute("SELECT * FROM client")
     result = cur.fetchall()
-    affichesql(result)
-
-    nomClient = input("Entrez le nom de Client ciblé: ")
-    prenomClient = input("Entrez le prenom de Client ciblé: ")
-    sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, proprietaire.debut AS date_adoption, \
-        a.date_naissance, num_puce, num_passeport \
+    affichesql(result, cur)
+    nomCli = inputAlpha("Entrez le nom du client ciblé: ")
+    prenomCli = inputAlpha("Entrez le prénom du client ciblé: ")
+    sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport \
         FROM animal a \
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie \
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
-        WHERE client.nom = '%s' AND client.prenom = '%s'\
-        AND proprietaire.fin ISNULL\
-        ORDER BY proprietaire.debut DESC;"%(nomClient, prenomClient)
+        WHERE proprietaire.fin ISNULL\
+        AND client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 
 
 def s7():
-    print("\nVoici le tableau de client existant: ")
-    cur.execute("SELECT * FROM Client")
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+    print("\nVoici le tableau des clients existants: ")
+    cur.execute("SELECT * FROM client")
     result = cur.fetchall()
-    affichesql(result)
-
-    nomClient = input("Entrez le nom de Client ciblé: ")
-    prenomClient = input("Entrez le prenom de Client ciblé: ")
-    sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, proprietaire.debut AS date_adoption,\
-        a.date_naissance, num_puce, num_passeport\
+    affichesql(result, cur)
+    nomCli = inputAlpha("Entrez le nom du client ciblé: ")
+    prenomCli = inputAlpha("Entrez le prénom du client ciblé: ")
+    sql = "SELECT client.nom AS nom_Client, client.prenom AS prenom_client, a.nom AS nom_animal, categorie_espece.nom_categorie AS espece_animal, a.date_naissance, num_puce, num_passeport\
         FROM animal a\
         INNER JOIN categorie_espece ON a.categorie_espece = categorie_espece.id_categorie\
         INNER JOIN proprietaire ON a.id_animal = proprietaire.animal\
         INNER JOIN client ON client.id_client = proprietaire.client\
-        WHERE client.nom = '%s' AND client.prenom = '%s'\
-        AND proprietaire.fin < CURRENT_TIMESTAMP\
-        ORDER BY proprietaire.debut DESC ;"%(nomClient, prenomClient)
+        WHERE proprietaire.fin < CURRENT_TIMESTAMP\
+        AND client.nom = '%s'\
+        AND client.prenom = '%s';"%(nomCli,prenomCli)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s8():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomAni = input("Entrez le nom de l'animal ciblé: ")
+    nomAni = inputAlpha("Entrez le nom de l'animal ciblé: ")
 
     sql = "SELECT taille, poids, date, heure FROM Dossier_Medical d\
         INNER JOIN Animal a ON a.id_animal = d.animal\
@@ -298,15 +407,19 @@ def s8():
         ORDER BY date, heure ASC ;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s9():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomAni = input("Entrez le nom de l'animal ciblé: ")
+    nomAni = inputAlpha("Entrez le nom de l'animal ciblé: ")
 
     sql = "SELECT t.nom, debut, fin FROM Traitement t\
         INNER JOIN Dossier_Traitement d ON t.id_traitement = d.traitement\
@@ -316,15 +429,19 @@ def s9():
         ORDER BY debut ASC, fin ASC ;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s10():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomAni = input("Entrez le nom de l'animal ciblé: ")
+    nomAni = inputAlpha("Entrez le nom de l'animal ciblé: ")
 
     sql = "SELECT t.nom, debut, fin FROM Traitement t\
         INNER JOIN Dossier_Traitement d ON t.id_traitement = d.traitement\
@@ -334,9 +451,13 @@ def s10():
         ORDER BY debut ASC, fin ASC;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s11():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     sql = "SELECT nom, prenom, date_naissance, adresse, telephone,\
         CASE\
             WHEN poste = 'True' THEN 'Veterinaire'\
@@ -348,17 +469,21 @@ def s11():
         WHERE c.nom_categorie = 'Reptiles';"
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s12():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
 
     print("\nVoici le tableau de vétérinaire existant: ")
     cur.execute("SELECT * FROM Personnel WHERE poste = 'True' ")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomVet = input("Entrez le nom de vétérinaire ciblé: ")
-    prenomVet = input("Entrez le prenom de vétérinaire ciblé: ")
+    nomVet = inputAlpha("Entrez le nom de vétérinaire ciblé: ")
+    prenomVet = inputAlpha("Entrez le prenom de vétérinaire ciblé: ")
 
     sql = "SELECT a.nom, a.date_naissance, num_puce, num_passeport, nom_categorie\
         FROM Animal a\
@@ -368,15 +493,19 @@ def s12():
         WHERE p.nom = '%s' AND p.prenom = '%s';" %(nomVet,prenomVet)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
 
 def s13():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
 
-    nomAni = input("Entrez le nom de l'animal ciblé: ")
+    nomAni = inputAlpha("Entrez le nom de l'animal ciblé: ")
 
     sql = "SELECT p.nom, prenom, p.date_naissance, adresse, telephone, poste, nom_categorie, date_debut FROM Personnel p\
         INNER JOIN historique_veto h ON p.id_personnel = h.personnel\
@@ -386,4 +515,5 @@ def s13():
         ORDER BY date_debut ASC;"%(nomAni)
     cur.execute(sql)
     result = cur.fetchall()
-    affichesql(result)
+    affichesql(result, cur)
+    conn.close()
