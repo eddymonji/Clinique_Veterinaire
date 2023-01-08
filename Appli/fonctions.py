@@ -1,15 +1,11 @@
 import psycopg2
-#i1 -----------
 #connexion sur la BD
-conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
-#ouvir un curseur
-cur = conn.cursor()
 
 def affichesql(result):
     largeur = []
     colonnes = []
     tavnit = '|'
-    separateur = '+' 
+    separateur = '+'
     i = 0
     for cd in cur.description:
         espace = list(map(lambda x: len(str(x[i])), result))
@@ -34,6 +30,10 @@ def affichesql(result):
     print(separateur)
 
 def i1():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     nom = input("Entrez le nom du personnel: ")
     prenom = input("Entrez le prenom du personnel: ")
     date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
@@ -58,6 +58,10 @@ def i1():
 
 #i2-----------------
 def i2():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     nom = input("Entrez le nom du client: ")
     prenom = input("Entrez le prenom du personnel: ")
     date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
@@ -75,6 +79,10 @@ def i2():
 #i3-----------------
 
 def i3():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     print("Bonjour. Bienvenue à l'insertion de l'information de propriétaire pour un animal")
 
     print("Voici le tableau de l'animal existant: ")
@@ -89,11 +97,11 @@ def i3():
     result = cur.fetchall()
     affichesql(result)
 
-    client = input("Entrez l'id du personnel ciblé: ")
+    client = input("Entrez l'id du propriétaire ciblé: ")
 
     debut = input("Entrez la date de debut format YYYY-MM-DD : ")
-    fin = input("Entrez la date de fin format YYYY-MM-DD : ")
-
+    fin = input("Entrez la date de fin format YYYY-MM-DD (rien si c'est le propriétaire actuel : ")
+    #rajouter if pour null
     #ecrire le code sql
     sql = "INSERT INTO Proprietaire (animal, client, debut, fin)\
         VALUES ( %s, %s, '%s', '%s') ;\
@@ -105,6 +113,10 @@ def i3():
 
 #i4----------------------
 def i4():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     nom = input("Entrez le nom de l'animal: ")
     date_naissance = input("Entrez la date naissance format YYYY-MM-DD : ")
     num_puce = input("Entrez le num puce : ")
@@ -128,6 +140,10 @@ def i4():
 
 #i5 ----------------
 def i5():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     nom = input("Entrez le nom du medicament: ")
     description = input("Entrez la description: ")
     #ecrire le code sql
@@ -141,6 +157,10 @@ def i5():
 
 #i6 -------------------
 def i6():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -161,10 +181,15 @@ def i6():
         "%(animal, taille, poids, resultat, observation, date, heure, procedure)
     cur.execute(sql)
     conn.commit()
-    conn.close()
+
     print("Dossier médical inséré avec succès")
+    conn.close()
 
 def s1():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
+
     dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
     dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
     sql = "SELECT d.medicament , d.quantite , t.debut , t.fin\
@@ -175,8 +200,12 @@ def s1():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s2():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     dateDebut = input("Entrez la date de debut format YYYY-MM-DD: ")
     dateFin = input("Entrez la date de fin format YYYY-MM-DD: ")
     sql = "SELECT t.nom, COUNT(traitement) AS nombre_traitement\
@@ -188,8 +217,12 @@ def s2():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s3():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -206,8 +239,12 @@ def s3():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s4():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     sql = "SELECT COUNT(Animal) AS Nombre_Traite , c.nom_categorie\
         FROM categorie_espece c\
         INNER JOIN Animal a ON c.id_categorie = a.categorie_espece\
@@ -216,10 +253,14 @@ def s4():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 
 
 def s5():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau des clients existants: ")
     cur.execute("SELECT * FROM client")
     result = cur.fetchall()
@@ -237,9 +278,13 @@ def s5():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 
 def s6():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau des clients existants: ")
     cur.execute("SELECT * FROM client")
     result = cur.fetchall()
@@ -257,10 +302,14 @@ def s6():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 
 
 def s7():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau des clients existants: ")
     cur.execute("SELECT * FROM client")
     result = cur.fetchall()
@@ -278,8 +327,12 @@ def s7():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s8():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -294,8 +347,12 @@ def s8():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s9():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -312,8 +369,12 @@ def s9():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s10():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -330,8 +391,12 @@ def s10():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s11():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     sql = "SELECT nom, prenom, date_naissance, adresse, telephone,\
         CASE\
             WHEN poste = 'True' THEN 'Veterinaire'\
@@ -344,8 +409,12 @@ def s11():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s12():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
 
     print("\nVoici le tableau de vétérinaire existant: ")
     cur.execute("SELECT * FROM Personnel WHERE poste = 'True' ")
@@ -364,8 +433,12 @@ def s12():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
 
 def s13():
+    conn = psycopg2.connect("dbname = 'dbnf18a044' user= 'nf18a044' host = 'tuxa.sme.utc' password = 'tDLssh0N'")
+    #ouvir un curseur
+    cur = conn.cursor()
     print("\nVoici le tableau de l'animal existant: ")
     cur.execute("SELECT * FROM Animal")
     result = cur.fetchall()
@@ -382,3 +455,4 @@ def s13():
     cur.execute(sql)
     result = cur.fetchall()
     affichesql(result)
+    conn.close()
