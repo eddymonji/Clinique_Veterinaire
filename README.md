@@ -30,14 +30,3 @@ Besoins :
 
 
 
-## Semaine 1 :
-Travaux réalisés: 
-+ README.md
-
-+ NDC.md
-
-+ veto.plantuml
-
-+ uml.png
-
-
