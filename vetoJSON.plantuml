@@ -1,0 +1,111 @@
+@startuml Clinique Veterinaire
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+abstract class Personne <<abstract>> {
+    nom : String 
+    prenom : String
+    date_naissance : Date
+    adresse : String
+    telephone : Integer
+}
+
+class Personnel {
+    poste : Boolean 
+}
+
+class Veterinaire
+
+class Assistant
+
+class Client {
+}
+
+class Animal {
+    nom : String
+    date_naissance : Date 
+    num_puce : Integer
+    num_passeport : Integer
+    Dossier_Medical : json
+}
+
+class Categorie_Espece{
+    nom_categorie : String
+}
+
+class Medicament {
+    nom : String
+    description : Text
+}
+
+class Traitement {
+    debut : Date
+    fin : Date 
+    nom : String
+
+}
+
+json Dossier_Medical {
+    "taille" : {},
+    "poids" : {},
+    "resultat" : {},
+    "observation" : {},
+    "date" : {},
+    "heure" : {}
+}
+
+class Procedure{
+    nom : String
+    description : Text 
+}
+
+class dosage {
+    quantite : Reel
+}
+
+class historique_veto {
+    date_debut : Date
+}
+
+class Proprietaire{
+    debut : Date
+    fin : Date
+}
+
+
+Medicament "1..*" - "1..*" Traitement
+(Medicament, Traitement) .. dosage
+
+Personne <|-- Personnel
+Personne <|-- Client
+
+Personnel <|-- Assistant
+Personnel <|-- Veterinaire
+Personnel "*" -- "1" Categorie_Espece : est specialise >
+Personnel "1" -- "1..* " Animal : < suivi par
+Animal "*" -- "*" Veterinaire 
+(Animal, Veterinaire) .. historique_veto
+
+
+Animal "1..* " -- "1" Categorie_Espece : est de >
+Animal "1..* " -- "1 ..*" Client 
+(Animal, Client) .. Proprietaire
+' Animal o-- "0..*" Dossier_Medical : < appartient a 
+
+Animal "1..* " -- "1..*" Traitement : comporte >
+Animal "1..* " -- "1" Procedure : possede >
+
+Veterinaire "1..* " -- "1..*" Traitement : prescrit >
+
+Medicament "0..* " -- "0..*" Categorie_Espece : est autorise > 
+
+
+note "l'heritage est exclusif" as N2
+Personnel .. N2
+N2 .. Client
+
+note "l'heritage est exclusif" as N3
+Assistant .. N3
+N3 .. Veterinaire
+
+@enduml
