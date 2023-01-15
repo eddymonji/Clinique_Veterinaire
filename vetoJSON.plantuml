@@ -26,7 +26,7 @@ class Animal {
     date_naissance : Date 
     num_puce : Integer
     num_passeport : Integer
-    Dossier_Medical : json
+    Dossier_Medical : Dossier_Medical
 }
 
 class Categorie_Espece{
