@@ -86,7 +86,7 @@ CREATE TABLE Dossier_medical (
 	date  DATE,
 	heure TIME,
 	FOREIGN KEY(animal) REFERENCES Animal(id_animal),
-	FOREIGN KEY(procedure) REFERENCES Procedure(id_procedure)
+	FOREIGN KEY(procedure) REFERENCES Procedure(id_procedure),
 	CONSTRAINT taille CHECK (taille > 0),
 	CONSTRAINT poids CHECK (poids > 0)
 );
